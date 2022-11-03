@@ -18,6 +18,7 @@ contract Vote is Ownable, AccessControl {
     string [] public party = ["APC", "PDP", "LP", "NNPP"];
 
     bytes32 public constant INEC_EXEC_ROLE = keccak256("INEC_EXEC");
+    bytes32 public constant VOTER_ROLE = keccak256("VOTER");
 
     struct candidate {
         string name;
@@ -78,12 +79,14 @@ contract Vote is Ownable, AccessControl {
 
 
     /**
-     * @dev Return value 
-     * @param _account value for the role'
+     * @dev registers a voter
+     * @param _account address of voter, _nin is the voters identifier'
      */
-    function regVoter(address _account, uint256 _nin) public onlyOwner{
+    function regVoter(address _account, uint256 _nin) public {
         Voters[voterNum].addr = _account;
         Voters[voterNum].nin = _nin;
+
+        grantRole(VOTER_ROLE, _account);
     }
 
     /**

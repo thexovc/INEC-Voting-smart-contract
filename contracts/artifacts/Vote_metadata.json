@@ -131,6 +131,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "VOTER_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "string",
@@ -421,9 +434,9 @@
 					"details": "Returns the address of the current owner."
 				},
 				"regVoter(address,uint256)": {
-					"details": "Return value ",
+					"details": "registers a voter",
 					"params": {
-						"_account": "value for the role'"
+						"_account": "address of voter, _nin is the voters identifier'"
 					}
 				},
 				"renounceOwnership()": {
@@ -530,11 +543,11 @@
 			]
 		},
 		"contracts/Vote.sol": {
-			"keccak256": "0x251d8fb56b28bb9f9b6f5f5456876dca8d3dca73ac2aeaf4c4e0463620758f19",
+			"keccak256": "0x074369eedd655fc7e521fd0ed5a7979e8dd3da59f846ab9810964f5a6239cf0d",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://231870510d73e78e6215f52cb58643db05b7585e6838d2a04f0f1f1256c0167e",
-				"dweb:/ipfs/QmdwU5gX8moLLv3ENHdoL2U9HponTxTaGyRyDGtZbAiCuA"
+				"bzz-raw://7274c319ad1ef4f000b0b3777ad659168d5abe9f19381cff8834a7a6da368953",
+				"dweb:/ipfs/QmXSu3qM7qGAypxk3C2S52h2LDpDVWKHL1KdAeFJBAfM4b"
 			]
 		}
 	},
