@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @dev Store & retrieve value in a variable
  * @custom:dev-run-script ./scripts/deploy_with_ethers.ts
  */
-contract Vote is AccessControl {
+contract Vote is Ownable, AccessControl {
 
     uint256 voteFee;
     uint256 candidateNum;
@@ -30,6 +30,14 @@ contract Vote is AccessControl {
         require(hasRole(INEC_EXEC_ROLE, msg.sender), "Caller is not an INEC executive");
         _;
     }
+
+
+    constructor() {
+        // Grant the contract deployer the default admin role: it will be able
+        // to grant and revoke any roles
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    }
+    
 
     /**
      * @dev Store value in variable
@@ -52,4 +60,14 @@ contract Vote is AccessControl {
     function retrieveCandidate(uint256 num) public view returns (candidate memory){
         return Candidates[num];
     }
+
+    /**
+     * @dev Return value 
+     * @param account value for the role'
+     */
+    function createInecExec(address account) public onlyOwner{
+        grantRole(INEC_EXEC_ROLE, account);
+    }
+
+   
 }
