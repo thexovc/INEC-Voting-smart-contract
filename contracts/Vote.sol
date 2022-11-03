@@ -14,6 +14,7 @@ contract Vote is Ownable, AccessControl {
     uint256 voteFee;
     uint256 candidateNum;
     uint256 voterNum;
+    uint256 electionNum;
     
     string [] public party = ["APC", "PDP", "LP", "NNPP"];
 
@@ -33,11 +34,22 @@ contract Vote is Ownable, AccessControl {
         bool hasVoted;
     }
 
+    struct election {
+        address [] candidate;
+        uint256 [] candidateVote;
+        uint256 start;
+        uint256 duration;
+        bool hasEnded;
+    }
+
     // mapping of candidates to keep track of how many candidates there are
-    mapping(uint256 => candidate) Candidates;
+    mapping(uint256 => candidate) public Candidates;
 
     // mapping of voters to keep track of how many voters there are
-    mapping(uint256 => voter) Voters;
+    mapping(uint256 => voter) public Voters;
+    
+    // mapping of election to keep track of how many elections there are
+    mapping(uint256 => election) internal Elections;
 
     /**
      * @dev checks to see if the address is an INEC executive
@@ -86,8 +98,24 @@ contract Vote is Ownable, AccessControl {
         Voters[voterNum].addr = _account;
         Voters[voterNum].nin = _nin;
 
-        grantRole(VOTER_ROLE, _account);
+        _setupRole(VOTER_ROLE, _account);
     }
+
+    /**
+     * @dev registers a voter
+     * @param _candidateNum is an arrat of candidates, _nin is the voters identifier'
+     */
+    function createElection(address[] memory _candidateNum, uint256 _date, uint256 _duration) public isInecExec {
+       Elections[electionNum].start = _date;
+       Elections[electionNum].duration = _duration;
+
+       for(uint i = 0; i < _candidateNum.length; i++){
+           Elections[electionNum].candidate.push(_candidateNum[i]);
+       }
+
+       electionNum ++;
+    }
+
 
     /**
      * @dev Return value 
@@ -95,6 +123,14 @@ contract Vote is Ownable, AccessControl {
      */
     function retrieveCandidate(uint256 num) public view returns (candidate memory){
         return Candidates[num];
+    }
+
+    /**
+     * @dev Return value 
+     * @return value of 'struct'
+     */
+    function getElection(uint256 num) public view returns (election memory){
+        return Elections[num];
     }
 
 

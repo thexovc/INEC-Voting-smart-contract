@@ -105,6 +105,35 @@
 				"type": "event"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "Candidates",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "addr",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "party",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "DEFAULT_ADMIN_ROLE",
 				"outputs": [
@@ -146,6 +175,40 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "Voters",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "addr",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nin",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "partyNum",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "hasVoted",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "string",
 						"name": "name",
 						"type": "string"
@@ -169,6 +232,29 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address[]",
+						"name": "_candidateNum",
+						"type": "address[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_date",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_duration",
+						"type": "uint256"
+					}
+				],
+				"name": "createElection",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "_account",
 						"type": "address"
@@ -177,6 +263,52 @@
 				"name": "createInecExec",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "num",
+						"type": "uint256"
+					}
+				],
+				"name": "getElection",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address[]",
+								"name": "candidate",
+								"type": "address[]"
+							},
+							{
+								"internalType": "uint256[]",
+								"name": "candidateVote",
+								"type": "uint256[]"
+							},
+							{
+								"internalType": "uint256",
+								"name": "start",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "duration",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bool",
+								"name": "hasEnded",
+								"type": "bool"
+							}
+						],
+						"internalType": "struct Vote.election",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -415,10 +547,22 @@
 						"partyNum": "value for candidate party"
 					}
 				},
+				"createElection(address[],uint256,uint256)": {
+					"details": "registers a voter",
+					"params": {
+						"_candidateNum": "is an arrat of candidates, _nin is the voters identifier'"
+					}
+				},
 				"createInecExec(address)": {
 					"details": "Grant INEC executive role to an address ",
 					"params": {
 						"_account": "value for the role'"
+					}
+				},
+				"getElection(uint256)": {
+					"details": "Return value ",
+					"returns": {
+						"_0": "value of 'struct'"
 					}
 				},
 				"getRoleAdmin(bytes32)": {
@@ -543,11 +687,11 @@
 			]
 		},
 		"contracts/Vote.sol": {
-			"keccak256": "0x074369eedd655fc7e521fd0ed5a7979e8dd3da59f846ab9810964f5a6239cf0d",
+			"keccak256": "0x5dff906d73acc9f013703fa5691a5ebb1b05e0b5cc55f16b23b5d6096edf329d",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://7274c319ad1ef4f000b0b3777ad659168d5abe9f19381cff8834a7a6da368953",
-				"dweb:/ipfs/QmXSu3qM7qGAypxk3C2S52h2LDpDVWKHL1KdAeFJBAfM4b"
+				"bzz-raw://7ff952776f53f62fa131e53f95fd6fac48dabafa56871d7742aefb1281f0282b",
+				"dweb:/ipfs/QmSEiaBf3awTfKX7EdkSTB7wcpCYL9Q4kWCjw3WhFJoi7o"
 			]
 		}
 	},
