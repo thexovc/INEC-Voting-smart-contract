@@ -13,7 +13,8 @@ contract Vote is Ownable, AccessControl {
 
     uint256 voteFee;
     uint256 candidateNum;
-
+    uint256 voterNum;
+    
     string [] public party = ["APC", "PDP", "LP", "NNPP"];
 
     bytes32 public constant INEC_EXEC_ROLE = keccak256("INEC_EXEC");
@@ -24,8 +25,22 @@ contract Vote is Ownable, AccessControl {
         string party;
     }
 
+    struct voter {
+        address addr;
+        uint256 nin;
+        uint256 partyNum;
+        bool hasVoted;
+    }
+
+    // mapping of candidates to keep track of how many candidates there are
     mapping(uint256 => candidate) Candidates;
 
+    // mapping of voters to keep track of how many voters there are
+    mapping(uint256 => voter) Voters;
+
+    /**
+     * @dev checks to see if the address is an INEC executive
+     */
     modifier isInecExec () {
         require(hasRole(INEC_EXEC_ROLE, msg.sender), "Caller is not an INEC executive");
         _;
@@ -36,6 +51,14 @@ contract Vote is Ownable, AccessControl {
         // Grant the contract deployer the default admin role: it will be able
         // to grant and revoke any roles
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    }
+
+    /**
+     * @dev Grant INEC executive role to an address 
+     * @param _account value for the role'
+     */
+    function createInecExec(address _account) public onlyOwner{
+        grantRole(INEC_EXEC_ROLE, _account);
     }
     
 
@@ -53,6 +76,16 @@ contract Vote is Ownable, AccessControl {
         candidateNum ++;      
     }
 
+
+    /**
+     * @dev Return value 
+     * @param _account value for the role'
+     */
+    function regVoter(address _account, uint256 _nin) public onlyOwner{
+        Voters[voterNum].addr = _account;
+        Voters[voterNum].nin = _nin;
+    }
+
     /**
      * @dev Return value 
      * @return value of 'struct'
@@ -61,13 +94,6 @@ contract Vote is Ownable, AccessControl {
         return Candidates[num];
     }
 
-    /**
-     * @dev Return value 
-     * @param account value for the role'
-     */
-    function createInecExec(address account) public onlyOwner{
-        grantRole(INEC_EXEC_ROLE, account);
-    }
 
    
 }

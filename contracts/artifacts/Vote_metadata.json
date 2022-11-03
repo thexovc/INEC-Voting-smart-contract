@@ -157,7 +157,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "account",
+						"name": "_account",
 						"type": "address"
 					}
 				],
@@ -257,6 +257,24 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_account",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_nin",
+						"type": "uint256"
+					}
+				],
+				"name": "regVoter",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -385,9 +403,9 @@
 					}
 				},
 				"createInecExec(address)": {
-					"details": "Return value ",
+					"details": "Grant INEC executive role to an address ",
 					"params": {
-						"account": "value for the role'"
+						"_account": "value for the role'"
 					}
 				},
 				"getRoleAdmin(bytes32)": {
@@ -401,6 +419,12 @@
 				},
 				"owner()": {
 					"details": "Returns the address of the current owner."
+				},
+				"regVoter(address,uint256)": {
+					"details": "Return value ",
+					"params": {
+						"_account": "value for the role'"
+					}
 				},
 				"renounceOwnership()": {
 					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
@@ -506,11 +530,11 @@
 			]
 		},
 		"contracts/Vote.sol": {
-			"keccak256": "0x2e3ebcd11daeb225bb28720fecced93f42ed3247e8aae7d267b62aa2ffec8c81",
+			"keccak256": "0x251d8fb56b28bb9f9b6f5f5456876dca8d3dca73ac2aeaf4c4e0463620758f19",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://97e27b2245a78ab6d4900d0ffd38364127fa38ee128a6ecff33bc2027b87cd25",
-				"dweb:/ipfs/QmTAthVECzgezeqDSjmKhuBTx6r5sy2UBTc7DhHJ1dbxje"
+				"bzz-raw://231870510d73e78e6215f52cb58643db05b7585e6838d2a04f0f1f1256c0167e",
+				"dweb:/ipfs/QmdwU5gX8moLLv3ENHdoL2U9HponTxTaGyRyDGtZbAiCuA"
 			]
 		}
 	},
