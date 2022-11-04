@@ -36,14 +36,14 @@ contract Vote is Ownable, AccessControl {
 
     struct election {
         address [] candidate;
-        uint256 [] candidateVote;
+        uint256 [4] candidateVote;
         uint256 start;
         uint256 duration;
         bool hasEnded;
     }
 
     // mapping of candidates to keep track of how many candidates there are
-    mapping(uint256 => candidate) public Candidates;
+    candidate [] public Candidates;
 
     // mapping of voters to keep track of how many voters there are
     mapping(uint256 => voter) public Voters;
@@ -56,6 +56,11 @@ contract Vote is Ownable, AccessControl {
      */
     modifier isInecExec () {
         require(hasRole(INEC_EXEC_ROLE, msg.sender), "Caller is not an INEC executive");
+        _;
+    }
+
+    modifier isVoter () {
+        require(hasRole(VOTER_ROLE, msg.sender), "Caller is not a Voter");
         _;
     }
 
@@ -82,9 +87,12 @@ contract Vote is Ownable, AccessControl {
      * @param partyNum value for candidate party
      */
     function createCandidate(string memory name, address candAddress, uint256 partyNum) public isInecExec {
-        Candidates[candidateNum].name = name;
-        Candidates[candidateNum].addr = candAddress;
-        Candidates[candidateNum].party = party[partyNum]; 
+        candidate memory NewCandidate;
+        NewCandidate.name = name;
+        NewCandidate.addr = candAddress;
+        NewCandidate.party = party[partyNum];
+
+        Candidates.push(NewCandidate);
 
         candidateNum ++;      
     }
@@ -92,47 +100,33 @@ contract Vote is Ownable, AccessControl {
 
     /**
      * @dev registers a voter
-     * @param _account address of voter, _nin is the voters identifier'
+     * @param _nin is the voters identifier'
      */
-    function regVoter(address _account, uint256 _nin) public {
-        Voters[voterNum].addr = _account;
+    function regVoter(uint256 _nin) public {
+        Voters[voterNum].addr = msg.sender;
         Voters[voterNum].nin = _nin;
 
-        _setupRole(VOTER_ROLE, _account);
+        _setupRole(VOTER_ROLE, msg.sender);
     }
 
     /**
      * @dev registers a voter
-     * @param _candidateNum is an arrat of candidates, _nin is the voters identifier'
+     * @param _date is the date the election will start and _duration is how long voters can vote'
      */
-    function createElection(address[] memory _candidateNum, uint256 _date, uint256 _duration) public isInecExec {
+    function createElection(uint256 _date, uint256 _duration) public isInecExec {
        Elections[electionNum].start = _date;
        Elections[electionNum].duration = _duration;
 
-       for(uint i = 0; i < _candidateNum.length; i++){
-           Elections[electionNum].candidate.push(_candidateNum[i]);
+       for(uint i = 0; i < Candidates.length; i++){
+           Elections[electionNum].candidate.push(Candidates[i].addr);
        }
 
        electionNum ++;
     }
 
-
-    /**
-     * @dev Return value 
-     * @return value of 'struct'
-     */
-    function retrieveCandidate(uint256 num) public view returns (candidate memory){
-        return Candidates[num];
+    function Voting(uint256 partyID, uint256 electionID) public isVoter {
+        Elections[electionID].candidateVote[partyID]++;
     }
-
-    /**
-     * @dev Return value 
-     * @return value of 'struct'
-     */
-    function getElection(uint256 num) public view returns (election memory){
-        return Elections[num];
-    }
-
 
    
 }
